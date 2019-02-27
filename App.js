@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import Register from "./src/Views/Register";
-import Login from "./src/Views/Login";
+import Home from "./src/Views/Home";
 
 class App extends React.Component {
   static navigationOptions = {
@@ -19,11 +18,10 @@ class App extends React.Component {
 
 const AppNavigator = createStackNavigator(
   {
-    Login: Login,
-    Register: Register
+    Home: Home
   },
   {
-    initialRouteName: "Login"
+    initialRouteName: "Home"
   }
 );
 
