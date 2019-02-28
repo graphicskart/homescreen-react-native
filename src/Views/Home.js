@@ -8,88 +8,67 @@ static navigationOptions = {
     header: null
 }
 state = {
-    successModal: false,
-    errorModal: false
+    toggles: [
+        {
+            id: 1,
+            title: 'Create new project'
+        },
+        {
+            id: 2,
+            title: 'Create new project'
+        },
+        {
+            id: 3,
+            title: 'Create new project'
+        },
+        {
+            id: 4,
+            title: 'Create new project'
+        },
+        {
+            id: 5,
+            title: 'Create new project'
+        },
+        {
+            id: 6,
+            title: 'Create new project'
+        },
+        {
+            id: 7,
+            title: 'Create new project'
+        }
+    ],
+    toggle: []
 }
-onPress = () => {
-    this.props.navigation.navigate('Register')
+handleClickCheck(val) {
+    console.log(val,"value")
+    let { toggle } = this.state;
+    let index = toggle.indexOf(val)
+    console.log(index,"index")
+    if (index == -1) {
+        toggle.push(val)
+    }
+    else{
+        toggle.splice(index, 1)
+    }
+    this.setState({ toggle })
 }
   render() {
-    const slideAnimation = new SlideAnimation({
-        slideFrom: 'bottom',
-    });
+      let { toggles, toggle } = this.state
     return (
         <View style={[styles.container]}>
-            <TouchableOpacity style={{height: 40,borderRadius: 20,backgroundColor: '#6fb141',justifyContent: 'center',alignItems: 'center',marginBottom: 20}} onPress={() => this.setState({successModal: true})}>
-                <Text style={{color: '#fff'}}>Success</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{height: 40,borderRadius: 20,backgroundColor: '#d05e53',justifyContent: 'center',alignItems: 'center',marginBottom: 20}} onPress={() => this.setState({errorModal: true})}>
-                <Text style={{color: '#fff'}}>Error</Text>
-            </TouchableOpacity>
-            <Dialog
-                    visible={this.state.successModal}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    dialogStyle={{borderRadius: 4,width: '100%',maxHeight: '95%'}}
-                    containerStyle={{justifyContent: 'center',padding: 10}}
-                    onTouchOutside={() => {
-                        this.setState({successModal: false})
-                      }}
-                >
-                    <DialogContent>
-                        <View style={{position: 'relative',paddingTop: 40}}>
-                            <TouchableOpacity
-                                style={{position: 'absolute',right: -10,top:10,paddingLeft: 10, paddingRight: 10,zIndex: 10}}
-                                onPress={() => {
-                                    this.setState({successModal: false})
-                                }}>
-                                <Icons name='close' size={30} color ='#6fb141' />
-                            </TouchableOpacity>
-                            <View>
-                                <Text style={{textAlign: 'center',fontSize: 24,color: '#000',marginBottom: 10}}>Success!</Text>
-                                <Text style={{textAlign: 'center',fontSize: 18,paddingLeft: 30,paddingRight: 30}}>Your account has been created.</Text>
-                                <View style={{height: 100,width: 100,borderWidth: 2,borderColor: '#6fb141',borderRadius: 50,marginTop: 50,marginBottom: 60,alignSelf: 'center',alignItems: 'center',justifyContent: 'center'}}>
-                                    <Icons name='check' size={30} color ='#6fb141' />
+            <Text style={{fontSize: 20,textAlign: 'center'}}>All Tasks</Text>
+            <View style={{marginTop: 20}}>
+                {toggles.map((itm,key) => {
+                    let activeImage = toggle.includes(itm.id)
+                    return <TouchableOpacity style={{height: 50,borderRadius: 25,justifyContent: 'center',paddingLeft: 20,paddingRight: 20,elevation: 2,marginBottom: 20,shadowColor:'#000',shadowOffset: {width: 0, height: 2},shadowOpacity: 0.8,shadowRadius: 2,backgroundColor: '#fff'}} onPress={this.handleClickCheck.bind(this, itm.id)} key={key} activeOpacity={0.1}>
+                                <Text style={{fontSize: 15}}>{itm.title}</Text>
+                                <View style={{position: 'absolute',height: 35,width: 35,right: 20,top: 10}}>
+                                    {activeImage && <Image source={require('../img/steps-checked.png')} style={{width: '100%',height: '100%'}} />}
                                 </View>
-                                <TouchableOpacity style={{height: 40,borderRadius: 20,backgroundColor: '#6fb141',justifyContent: 'center',alignItems: 'center',marginBottom: 20}} onPress={() => this.setState({successModal: false})}>
-                                    <Text style={{color: '#fff'}}>Continue</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </DialogContent>
-                </Dialog>
-                <Dialog
-                    visible={this.state.errorModal}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
-                    dialogAnimation={slideAnimation}
-                    dialogStyle={{borderRadius: 4,width: '100%',maxHeight: '95%',backgroundColor: '#d05e53'}}
-                    containerStyle={{justifyContent: 'center',padding: 10}}
-                    onTouchOutside={() => {
-                        this.setState({errorModal: false})
-                      }}
-                >
-                    <DialogContent>
-                        <View style={{position: 'relative',paddingTop: 40}}>
-                            <TouchableOpacity
-                                style={{position: 'absolute',right: -10,top:10,paddingLeft: 10, paddingRight: 10,zIndex: 10}}
-                                onPress={() => {
-                                    this.setState({errorModal: false})
-                                }}>
-                                <Icons name='close' size={30} color ='#fff' />
                             </TouchableOpacity>
-                            <View>
-                                <Text style={{textAlign: 'center',fontSize: 24,color: '#fff',marginBottom: 10}}>Face-Plant!</Text>
-                                <Text style={{textAlign: 'center',fontSize: 18,paddingLeft: 30,paddingRight: 30,color: '#fff'}}>Ooops, something went wrong.</Text>
-                                <View style={{height: 100,width: 100,borderWidth: 2,borderColor: '#fff',borderRadius: 50,marginTop: 50,marginBottom: 60,alignSelf: 'center',alignItems: 'center',justifyContent: 'center'}}>
-                                    <Icons name='close' size={30} color ='#fff' />
-                                </View>
-                                <TouchableOpacity style={{height: 40,borderRadius: 20,backgroundColor: '#933b33',justifyContent: 'center',alignItems: 'center',marginBottom: 20}} onPress={() => this.setState({errorModal: false})}>
-                                    <Text style={{color: '#fff'}}>Try Again</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </DialogContent>
-                </Dialog>
+                })}
+            </View>
         </View>
     );
   }
@@ -98,6 +77,7 @@ onPress = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+    padding: 10,
+    backgroundColor: '#fff'
   }
 });
