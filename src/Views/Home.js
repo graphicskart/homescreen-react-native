@@ -1,83 +1,128 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, ImageBackground, TextInput, Image, TouchableOpacity} from 'react-native';
-import Dialog, { SlideAnimation, DialogContent } from 'react-native-popup-dialog';
-import Icons from 'react-native-vector-icons/AntDesign'
+import React from 'react'
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'react-native';
+let { height, width } = Dimensions.get('window');
+import Swiper from 'react-native-swiper';
 
-export default class Home extends Component {
-static navigationOptions = {
-    header: null
-}
-state = {
-    toggles: [
-        {
-            id: 1,
-            title: 'Create new project'
-        },
-        {
-            id: 2,
-            title: 'Create new project'
-        },
-        {
-            id: 3,
-            title: 'Create new project'
-        },
-        {
-            id: 4,
-            title: 'Create new project'
-        },
-        {
-            id: 5,
-            title: 'Create new project'
-        },
-        {
-            id: 6,
-            title: 'Create new project'
-        },
-        {
-            id: 7,
-            title: 'Create new project'
+class Home extends React.Component {
+    static navigationOptions = {
+        header: null
+    }
+    constructor() {
+        super()
+        this.state = {
+            data: [
+                {
+                    img: require('../img/img5.jpg'),
+                    text1: 'Digital',
+                    text2: 'Marketing',
+                    subHeading: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s.'
+                },
+                {
+                    img: require('../img/img6.jpg'),
+                    text1: 'Digital',
+                    text2: 'Marketing',
+                    subHeading: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s.'
+                },
+                {
+                    img: require('../img/img8.jpg'),
+                    text1: 'Digital',
+                    text2: 'Marketing',
+                    subHeading: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s.'
+                },
+                {
+                    img: require('../img/img9.jpg'),
+                    text1: 'Digital',
+                    text2: 'Marketing',
+                    subHeading: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s.'
+                }
+            ]
         }
-    ],
-    toggle: []
-}
-handleClickCheck(val) {
-    console.log(val,"value")
-    let { toggle } = this.state;
-    let index = toggle.indexOf(val)
-    console.log(index,"index")
-    if (index == -1) {
-        toggle.push(val)
     }
-    else{
-        toggle.splice(index, 1)
-    }
-    this.setState({ toggle })
-}
-  render() {
-      let { toggles, toggle } = this.state
-    return (
-        <View style={[styles.container]}>
-            <Text style={{fontSize: 20,textAlign: 'center'}}>All Tasks</Text>
-            <View style={{marginTop: 20}}>
-                {toggles.map((itm,key) => {
-                    let activeImage = toggle.includes(itm.id)
-                    return <TouchableOpacity style={{height: 50,borderRadius: 25,justifyContent: 'center',paddingLeft: 20,paddingRight: 20,elevation: 2,marginBottom: 20,shadowColor:'#000',shadowOffset: {width: 0, height: 2},shadowOpacity: 0.8,shadowRadius: 2,backgroundColor: '#fff'}} onPress={this.handleClickCheck.bind(this, itm.id)} key={key} activeOpacity={0.1}>
-                                <Text style={{fontSize: 15}}>{itm.title}</Text>
-                                <View style={{position: 'absolute',height: 35,width: 35,right: 20,top: 10}}>
-                                    {activeImage && <Image source={require('../img/steps-checked.png')} style={{width: '100%',height: '100%'}} />}
+    render() {
+        console.log(this.props,"props")
+        let { data } = this.state
+        return (
+            <View style={{ flex: 1, position: 'relative' }}>
+                <Swiper style={styles.wrapper}
+                    loop={false}
+                    showsButtons={true}
+                    dotStyle={{ borderColor: '#fff', borderWidth: 1 }}
+                    dotColor='#bbb'
+                    activeDotColor='black'
+                    nextButton={
+                     <View style={{height:height,paddingBottom:35, justifyContent:'flex-end',marginRight: 10}}>
+                        <Text style={{color:'#fff'}}>NEXT</Text>
+                    </View>
+                    }
+                    prevButton={<View style={styles.buttonTextOut}>
+                        <Text style={styles.buttonText}>SKIP</Text>
+                    </View>}>
+                    {data.map((item, key) => {
+                        return(
+                            <View style={styles.slide1} key={key}>
+                                <Image style={{height: '60%',width: '100%'}} source={item.img} />
+                                <View style={{position: 'absolute',top: '60%',width: '100%'}}>
+                                    <Text style={styles.textHeading}>{item.text1}</Text>
+                                    <Text style={styles.textHeading}>{item.text2}</Text>
+                                    <Text style={styles.textsubheading}>{item.subHeading}</Text>
                                 </View>
-                            </TouchableOpacity>
-                })}
+                            </View>
+                        )
+                    })}
+                </Swiper>
             </View>
-        </View>
-    );
-  }
+        )
+    }
 }
+export default Home;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#fff'
-  }
+
+    skipBtn:{
+        position:'absolute',
+        bottom:22,
+        left:18
+    },
+    skipText:{
+        color:'#fff',
+        fontSize:14,
+        fontWeight: "400"
+
+    },
+    buttonTextOut: {
+        // position: 'relative',
+        // height: height,
+    },
+    buttonText: {
+        borderWidth:2,
+        fontSize: 11,
+        zIndex:999999,
+        position: 'absolute',
+        bottom: 60,
+        right: 30,
+        color: '#fff',
+        backgroundColor: 'red'
+    },
+    slide1: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    text: {
+        color: '#fff',
+        fontSize: 30,
+        fontWeight: 'bold',
+    },
+    textHeading: {
+        textAlign: 'center',
+        fontSize: 22,
+        fontWeight: 'bold',
+        letterSpacing: 1,
+        color: '#000'
+    },
+    textsubheading: {
+        fontSize: 12,
+        padding: 40,
+        paddingTop: 30,
+        textAlign: 'center'
+    }
 });

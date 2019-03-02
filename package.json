@@ -11,6 +11,7 @@
     "react": "16.6.3",
     "react-native": "0.58.5",
     "react-native-popup-dialog": "^0.17.0",
+    "react-native-swiper": "^1.5.14",
     "react-navigation": "^3.3.0"
   },
   "devDependencies": {
